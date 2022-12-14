@@ -12,28 +12,30 @@ import java.time.Duration;
 import java.util.function.Function
 
 public class Test3 extends Main {
-    @Test
-    void test() throws InterruptedException {
-        getDriver().get("https://www.livejournal.com/");
-        WebElement webElement = getDriver().findElement(By.cssSelector(".s-header-search__icon"));
-        webElement.click();
 
-        Wait<WebDriver> wait = new FluentWait<WebDriver>(getDriver())
-                .withTimeout(Duration.ofSeconds(30))
-                .pollingEvery(Duration.ofSeconds(5))
-                .ignoring(NoSuchElementException.class);
+    @FindBy(css = ".s-header-search__icon")
+    private WebElement search;
 
+    @FindBy(css = ".s-header-item__link")
+    private WebElement input;
 
-        Thread.sleep(10000);
+    @FindBy(css = ".categories__link--topcategory")
+    private List<WebElement> searchItems;
 
-        WebElement webElement2 = wait.until(new Function<WebDriver, WebElement>() {
-            public WebElement apply(WebDriver driver) {
-                return driver.findElement(By.id(".s-header-item__link"));
-            }
-        });
-
-        webElement2.click();
-        webElement2.sendKeys();
-        webElement2.submit();
+    public SearchPage(WebDriver driver) {
+        super(driver);
     }
+
+    public void toSearch(String value){
+        search.click();
+        new WebDriverWait(getDriver(), 5).until(ExpectedConditions.elementToBeClickable(input));
+        input.sendKeys(value);
+        input.submit();
+    }
+
+    public void takeItem(int n){
+        searchItems.get(n).click();
+    }
+
+
 }

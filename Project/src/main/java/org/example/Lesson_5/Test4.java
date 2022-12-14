@@ -18,16 +18,20 @@ public class Test4 extends Main {
         new WebDriverWait(getDriver(), Duration.ofSeconds(10)).until(ExpectedConditions.urlContains("https://www.livejournal.com/"));
         Assertions.assertTrue(getDriver().getTitle().contains("живой журнал"), "страница входа недоступна");
 
-        // Создадим экземпляр класса Actions
         Actions search = new Actions(getDriver());
 
-        search.click(getDriver().findElement(By.cssSelector(".s-header-search__icon")))
-                .pause(1000l)
-                .sendKeys(getDriver().findElement(By.cssSelector(".s-header-item__link"))
-                .pause(1000l)
-                .click(getDriver().findElement(By.cssSelector(".categories__link--topcategory")))
-                .build()
-                .perform();
+        @FindBy(css = ".s-header-search__icon")
+        private WebElement search;
+
+        @FindBy(css = ".s-header-item__link")
+        private WebElement input;
+
+        @FindBy(css = ".categories__link--topcategory")
+        private List<WebElement> searchItems;
+
+    public SearchPage(WebDriver driver) {
+            super(driver);
+        }
 
         Thread.sleep(1000);
     }

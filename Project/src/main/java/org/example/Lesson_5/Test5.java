@@ -30,17 +30,17 @@ public class Test5 {
         driver.get("https://www.livejournal.com/");
     }
 
-    @Test
-    void test() throws InterruptedException {
+    @FindBy(css = ".s-header-search__icon")
+    private WebElement search;
 
-        WebElement webElement = driver.findElement(By.cssSelector(".s-header-search__icon"));
-        webElement.click();
-        Thread.sleep(1000);
-        WebElement webElement2 = driver.findElement(By.cssSelector(".s-header-item__link"));
-        webElement2.click();
-        webElement2.sendKeys();
-        webElement2.submit();
-        Assertions.assertEquals("Поиск",driver.getTitle(),"Не та страница");
+    @FindBy(css = ".s-header-item__link")
+    private WebElement input;
+
+    @FindBy(css = ".categories__link--topcategory")
+    private List<WebElement> searchItems;
+
+    public SearchPage(WebDriver driver) {
+        super(driver);
     }
 
     @AfterAll
